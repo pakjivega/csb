@@ -17,7 +17,7 @@ import com.sun.star.text.XText;
 
 public class GenerateCSB {
 	private static String nameFile = "adeudo2.c19";
-	private static File csbFile = new File(nameFile);
+	
 	private static XSpreadsheet maSheet;
 	public static void generateCSB19(XScriptContext xSc) {
 		// getting the text document object
@@ -26,7 +26,7 @@ public class GenerateCSB {
 		try {
 			XIndexAccess aSheetsIA = UnoRuntime.queryInterface(XIndexAccess.class, xSpread);
 			maSheet = UnoRuntime.queryInterface(XSpreadsheet.class, aSheetsIA.getByIndex(0));
-			String wherewritten = writeFile("Texto");
+			String wherewritten = CSB.generateFile(maSheet, "Textoaa");
 			XCell xCell = maSheet.getCellByPosition(0, 20);
 			xCell.setFormula(wherewritten);			
 		} catch (Exception ex) {
@@ -34,27 +34,7 @@ public class GenerateCSB {
 		}
 	}
 
-	public static String writeFile(String cadenaa) {
-		String response = null;
-		try {
-			Date now = new Date();
-			
-			String firstLine = "5180" + maSheet.getCellByPosition(2, 3).getFormula() + "000" + now.Day + now.Month + now.Year + "   " + "NombreOrdenante" + "  ";
-			String secondLine = "5380" + "SecondLine";
-			response = csbFile.getPath();
-			FileWriter fw = new FileWriter(csbFile);
-			fw.write(firstLine);
-			fw.write(System.lineSeparator());
-			fw.write(secondLine);
-			fw.write(System.lineSeparator());
-			fw.close();
-		} catch (Exception ex) {
-			// do stuff with exception
-			response = ex.getMessage();
-			ex.printStackTrace();
-		}
-		return response;
-	}
+	
 //	Dim B19 as String
 //	Dim B13 as String
 //	Dim B2 as String
