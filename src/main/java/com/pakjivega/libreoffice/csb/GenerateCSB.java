@@ -18,38 +18,18 @@ import com.sun.star.text.XText;
 public class GenerateCSB {
 	private static String nameFile = "adeudo2.c19";
 	
-	private static XSpreadsheet maSheet;
+	
 	public static void generateCSB19(XScriptContext xSc) {
 		// getting the text document object
 		XSpreadsheetDocument xsheetdocument = (XSpreadsheetDocument) UnoRuntime.queryInterface(XSpreadsheetDocument.class, xSc.getDocument());
 		XSpreadsheets xSpread = xsheetdocument.getSheets();
+		CSB csb = new CSB19PrimerSimple();
 		try {
 			XIndexAccess aSheetsIA = UnoRuntime.queryInterface(XIndexAccess.class, xSpread);
-			maSheet = UnoRuntime.queryInterface(XSpreadsheet.class, aSheetsIA.getByIndex(0));
-			String wherewritten = CSB.generateFile(maSheet, "Textoaa");
-			XCell xCell = maSheet.getCellByPosition(0, 20);
-			xCell.setFormula(wherewritten);			
+			String wherewritten = csb.generateFile(aSheetsIA);
+
 		} catch (Exception ex) {
 			System.out.println("Exception" + ex.getMessage());
 		}
 	}
-
-	
-//	Dim B19 as String
-//	Dim B13 as String
-//	Dim B2 as String
-//	Dim B3 as String
-//	Dim C as String
-//	Dim D as String
-//	B19 = ThisComponent.Sheets(0).getCellbyPosition(1,2).String
-//	B13 = "000"
-//	Dim today as Date
-//	today = Date()
-//	B2 =  Day(B2) & Month(B2) & Year(B2)
-//	B3 = "      "
-//	C = ThisComponent.Sheets(0).getCellbyPosition(1,1).String
-//	D = "         "
-//	'B2 = Rept(" hello world ";2)
-//	FirstLine="5180" & B19 & B13 & B2 & B3 & C & D 
-	
 }

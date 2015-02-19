@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parcel language="Java" xmlns:parcel="scripting.dtd">
+    <script language="Java">
+        <locale lang="en">
+            <displayname value="GenerateCSB"/>
+            <description>
+                Generate CSB files.
+            </description>
+        </locale>
+        <functionname value="com.pakjivega.libreoffice.csb.GenerateCSB.generateCSB19"/>
+        <!-- <logicalname value="GenerateCSB.generateCSB19printHello"/> -->
+        <logicalname value="GenerateCSB.generateCSB19"/>
+        <languagedepprops>
+            <prop name="classpath" value="Csb-1.0-SNAPSHOT.jar"/>
+        </languagedepprops>
+    </script>
+</parcel>
