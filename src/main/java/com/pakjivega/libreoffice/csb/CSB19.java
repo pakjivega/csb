@@ -24,10 +24,10 @@ public abstract class CSB19 extends CSB {
 			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
 			String sDate = sdf.format(now);
 			String NIF = presenterSheet.getCellByPosition(1, 2).getFormula();
-			String NamePresent = presenterSheet.getCellByPosition(1, 1).getFormula();
-			firstLine = PRESA1 + PRESA2 + NIF + "000000000000".substring(NIF.length()) + sDate + "      " + NamePresent
-					+ "                                                            ".substring(NamePresent.length())
-					+ presenterSheet.getCellByPosition(1, 4).getFormula() + presenterSheet.getCellByPosition(2, 4).getFormula();
+			String namePresenter = presenterSheet.getCellByPosition(1, 1).getFormula();
+			firstLine = PRESA1 + PRESA2 + UtilFormat.fillRightCeros(NIF, 12) + sDate + "      " + 
+					UtilFormat.fillRightSpace(namePresenter, 60) +
+					presenterSheet.getCellByPosition(1, 3).getFormula() + presenterSheet.getCellByPosition(1, 4).getFormula();
 		} catch (Exception ex) {
 			// do stuff with exception
 			// response = ex.getMessage();
@@ -42,16 +42,17 @@ public abstract class CSB19 extends CSB {
 			Date now = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			Date dateCargo = dateFormat.parse(presenterSheet.getCellByPosition(1, 5).getFormula());
+			Date dateCargo = dateFormat.parse(presenterSheet.getCellByPosition(1, 10).getFormula());
 			String sDate = sdf.format(now);
-			String NIF = presenterSheet.getCellByPosition(1, 2).getFormula();
-			String NamePresent = presenterSheet.getCellByPosition(1, 1).getFormula();
+			String NIF = presenterSheet.getCellByPosition(1, 6).getFormula();
+			String nameOrdenante = presenterSheet.getCellByPosition(1, 5).getFormula();
 			String sDateCargo = sdf.format(dateCargo);
 
-			secondLine = ORDEA1 + ORDEA2 + NIF + "000000000000".substring(NIF.length()) + sDate + sDateCargo + NamePresent
-					+ "                                        ".substring(NamePresent.length()) + presenterSheet.getCellByPosition(1, 4).getFormula()
-					+ presenterSheet.getCellByPosition(2, 4).getFormula() + presenterSheet.getCellByPosition(3, 4).getFormula()
-					+ presenterSheet.getCellByPosition(4, 4).getFormula() + "        " + "01";
+			secondLine = ORDEA1 + ORDEA2 + UtilFormat.fillRightCeros(NIF, 12) + sDate + sDateCargo +
+					UtilFormat.fillRightSpace(nameOrdenante, 40) + 
+					presenterSheet.getCellByPosition(0, 9).getFormula() +
+					presenterSheet.getCellByPosition(1, 9).getFormula() + presenterSheet.getCellByPosition(2, 9).getFormula() +
+					presenterSheet.getCellByPosition(3, 9).getFormula() + "        " + "01";
 		} catch (Exception ex) {
 			// do stuff with exception
 			// response = ex.getMessage();
@@ -69,11 +70,10 @@ public abstract class CSB19 extends CSB {
 			int i = 1;
 			while ( ( adeudosSheet.getCellByPosition(i, 0).getFormula() != null) && ( adeudosSheet.getCellByPosition(i, 0).getFormula().toString() != null )
 					&& ( adeudosSheet.getCellByPosition(i, 0).getFormula().toString().trim().length() >0 )) {
-				listAdeudos.add(INDIVOBLA1+INDIVOBLA2 + NIF + "000000000000".substring(NIF.length()) + adeudosSheet.getCellByPosition(0, i).getFormula().toString() +
-						"            ".substring(adeudosSheet.getCellByPosition(0, i).getFormula().toString().length()) +
-						 adeudosSheet.getCellByPosition(1, i).getFormula().toString() + 
-						 "                                        ".substring(adeudosSheet.getCellByPosition(1, i).getFormula().toString().length()) +
-						 adeudosSheet.getCellByPosition(3, i).getFormula().toString()   ) ;
+				listAdeudos.add(INDIVOBLA1+INDIVOBLA2 + UtilFormat.fillRightCeros(NIF, 12) + adeudosSheet.getCellByPosition(0, i).getFormula().toString() +
+						UtilFormat.fillLeftSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) +
+						adeudosSheet.getCellByPosition(1, i).getFormula().toString() + 
+						adeudosSheet.getCellByPosition(3, i).getFormula().toString()   ) ;
 				i++;
 			}
 		} catch (Exception ex) {

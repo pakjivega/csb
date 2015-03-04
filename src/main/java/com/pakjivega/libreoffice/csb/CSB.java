@@ -44,4 +44,5 @@ public abstract class CSB {
 	public abstract String getCabeceraOrdenante(XSpreadsheet maSheet);
 	public abstract List<String> getIndividualObligatorio(XSpreadsheet presentadorSheet, XSpreadsheet adeudosSheet);
 	
+	
 }
