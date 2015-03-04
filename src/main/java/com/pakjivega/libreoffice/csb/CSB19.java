@@ -70,10 +70,18 @@ public abstract class CSB19 extends CSB {
 			int i = 1;
 			while ( ( adeudosSheet.getCellByPosition(i, 0).getFormula() != null) && ( adeudosSheet.getCellByPosition(i, 0).getFormula().toString() != null )
 					&& ( adeudosSheet.getCellByPosition(i, 0).getFormula().toString().trim().length() >0 )) {
-				listAdeudos.add(INDIVOBLA1+INDIVOBLA2 + UtilFormat.fillRightCeros(NIF, 12) + adeudosSheet.getCellByPosition(0, i).getFormula().toString() +
-						UtilFormat.fillLeftSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) +
-						adeudosSheet.getCellByPosition(1, i).getFormula().toString() + 
-						adeudosSheet.getCellByPosition(3, i).getFormula().toString()   ) ;
+				
+					listAdeudos.add(INDIVOBLA1+INDIVOBLA2 + UtilFormat.fillRightCeros(NIF, 12) + //adeudosSheet.getCellByPosition(0, i).getFormula().toString() +
+						UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) +
+						UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(1, i).getFormula().toString(), 40) +
+						adeudosSheet.getCellByPosition(3, i).getFormula().toString() + adeudosSheet.getCellByPosition(4, i).getFormula().toString() +
+						adeudosSheet.getCellByPosition(5, i).getFormula().toString() + adeudosSheet.getCellByPosition(6, i).getFormula().toString() +
+						UtilFormat.formatImporte(adeudosSheet.getCellByPosition(8, i).getValue(),10 ) +
+						String.format("%06d", i) + 
+						UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 10) +
+						UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(7, i).getFormula(), 40) +
+						UtilFormat.fillRightSpace("", 13) 
+						);
 				i++;
 			}
 		} catch (Exception ex) {

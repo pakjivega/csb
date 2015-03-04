@@ -14,4 +14,14 @@ public class UtilFormat {
 		response = cadena + response.substring(cadena.length());
 		return response;
 	}
+	/**
+	 * Format import with two decimals and filled with 0 in the left 
+	 * @param ammount
+	 * @param length Number of Characters
+	 * @return the String 
+	 */
+	public static String formatImporte(double importe, int length) {
+		String response = String.format("%0" + length + ".0f" , importe*100);
+		return response;
+	}
 }

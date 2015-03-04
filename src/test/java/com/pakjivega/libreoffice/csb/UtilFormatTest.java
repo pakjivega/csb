@@ -26,4 +26,11 @@ public class UtilFormatTest  {
 		Assert.assertTrue(response.indexOf("NAME") == 0);
 		Assert.assertTrue("NAME0000000000000000".equals(response.trim()));
 	}
+	@Test
+	public void testformatImporte() {
+		String response = UtilFormat.formatImporte(23.5, 20);
+		String response1 = UtilFormat.formatImporte(23.534, 10);
+		Assert.assertTrue(response.length() == 20);
+		Assert.assertTrue(response1.length() == 10);
+	}
 }
