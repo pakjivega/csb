@@ -14,6 +14,13 @@ import java.util.List;
 public abstract class CSB {
 	private static String nameFile = "adeudo";
 	private static File csbFile = new File(nameFile);
+	protected int importeTotal = 0;
+	protected int numeroDomicilOrdenante = 0;
+	protected int numeroTotalRegistrosOrdenante = 0;
+	protected int numeroDomicilTotal = 0;
+	protected int numeroTotalRegistrosSoporte = 0;
+	protected int numeroOrdenantes = 0;
+	
 	
 	public String generateFile(XIndexAccess aSheetsIA ) {
 		String response = null;
@@ -31,7 +38,10 @@ public abstract class CSB {
 				fw.write(adeudo);
 				fw.write(System.lineSeparator());
 			}
-			
+			fw.write(getTotalOrdenante(maSheet));
+			fw.write(System.lineSeparator());
+			fw.write(getTotalGeneral(maSheet));
+			fw.write(System.lineSeparator());
 			fw.close();
 		} catch (Exception ex) {
 			// do stuff with exception
@@ -43,6 +53,6 @@ public abstract class CSB {
 	public abstract String getCabeceraPresentador(XSpreadsheet maSheet) ;
 	public abstract String getCabeceraOrdenante(XSpreadsheet maSheet);
 	public abstract List<String> getIndividualObligatorio(XSpreadsheet presentadorSheet, XSpreadsheet adeudosSheet);
-	
-	
+	public abstract String getTotalOrdenante(XSpreadsheet maSheet) ;
+	public abstract String getTotalGeneral(XSpreadsheet maSheet);
 }

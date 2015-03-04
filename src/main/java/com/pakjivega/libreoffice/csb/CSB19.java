@@ -1,5 +1,6 @@
 package com.pakjivega.libreoffice.csb;
 
+import java.awt.font.NumericShaper;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +16,11 @@ public abstract class CSB19 extends CSB {
 	private static final String ORDEA2 = "80";
 	private static final String INDIVOBLA1 = "56";
 	private static final String INDIVOBLA2 = "80";
+	private static final String TOTORDA1 = "58";
+	private static final String TOTORDA2 = "80";
+	private static final String TOTGENA1 = "59";
+	private static final String TOTGENA2 = "80";
+	
 	
 	@Override
 	public String getCabeceraPresentador(XSpreadsheet presenterSheet) {
@@ -28,6 +34,7 @@ public abstract class CSB19 extends CSB {
 			firstLine = PRESA1 + PRESA2 + UtilFormat.fillRightCeros(NIF, 12) + sDate + "      " + 
 					UtilFormat.fillRightSpace(namePresenter, 60) +
 					presenterSheet.getCellByPosition(1, 3).getFormula() + presenterSheet.getCellByPosition(1, 4).getFormula();
+			numeroTotalRegistrosSoporte++;
 		} catch (Exception ex) {
 			// do stuff with exception
 			// response = ex.getMessage();
@@ -53,6 +60,9 @@ public abstract class CSB19 extends CSB {
 					presenterSheet.getCellByPosition(0, 9).getFormula() +
 					presenterSheet.getCellByPosition(1, 9).getFormula() + presenterSheet.getCellByPosition(2, 9).getFormula() +
 					presenterSheet.getCellByPosition(3, 9).getFormula() + "        " + "01";
+			numeroTotalRegistrosOrdenante++;
+			numeroTotalRegistrosSoporte++;
+			numeroOrdenantes++;
 		} catch (Exception ex) {
 			// do stuff with exception
 			// response = ex.getMessage();
@@ -83,10 +93,64 @@ public abstract class CSB19 extends CSB {
 						UtilFormat.fillRightSpace("", 13) 
 						);
 				i++;
+				numeroDomicilOrdenante++;
+				numeroDomicilTotal++;
+				numeroTotalRegistrosOrdenante++;
+				numeroTotalRegistrosSoporte++;
+				importeTotal += Integer.valueOf(UtilFormat.formatImporte(adeudosSheet.getCellByPosition(8, i).getValue(),10));
 			}
 		} catch (Exception ex) {
 			
 		}
 		return listAdeudos;
+	}
+	@Override
+	public String getTotalOrdenante(XSpreadsheet presenterSheet) {
+		String firstLine = null;
+		try {
+			String NIF = presenterSheet.getCellByPosition(1, 2).getFormula();
+			numeroTotalRegistrosOrdenante++;
+			numeroTotalRegistrosSoporte++;
+			firstLine = TOTORDA1 + TOTORDA2 + UtilFormat.fillRightCeros(NIF, 12) + 
+					UtilFormat.fillLeftSpace("", 12)  +
+					UtilFormat.fillLeftSpace("", 40)  +
+					UtilFormat.fillLeftSpace("", 20)  +
+					UtilFormat.formatImporte(importeTotal, 10) +
+					UtilFormat.fillRightSpace("", 6) +
+					UtilFormat.formatNumero(numeroDomicilOrdenante, 10) +
+					UtilFormat.formatNumero(numeroTotalRegistrosOrdenante, 10) ;
+		} catch (Exception ex) {
+			// do stuff with exception
+			// response = ex.getMessage();
+			ex.printStackTrace();
+		}
+		return firstLine;
+	}
+
+	@Override
+	public String getTotalGeneral(XSpreadsheet presenterSheet) {
+		String firstLine = null;
+		try {
+			String NIF = presenterSheet.getCellByPosition(1, 2).getFormula();
+			numeroTotalRegistrosSoporte++;
+			firstLine = TOTGENA1 + TOTGENA2 + 
+					UtilFormat.fillRightCeros(NIF, 12) + 
+					UtilFormat.fillLeftSpace("", 12)  +
+					UtilFormat.fillLeftSpace("", 40)  +
+					UtilFormat.formatNumero(numeroOrdenantes, 4) +
+					UtilFormat.fillLeftSpace("", 16)  +
+					UtilFormat.formatImporte(importeTotal, 10) +
+					UtilFormat.fillRightSpace("", 6) +
+					UtilFormat.formatNumero(numeroDomicilTotal, 10) +
+					UtilFormat.formatNumero(numeroTotalRegistrosSoporte, 10) +
+					UtilFormat.fillRightSpace("", 20) +
+					UtilFormat.fillRightSpace("", 18) ;
+		} catch (Exception ex) {
+			// do stuff with exception
+			// response = ex.getMessage();
+			ex.printStackTrace();
+		}
+		
+		return firstLine;
 	}
 }

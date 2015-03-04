@@ -24,4 +24,8 @@ public class UtilFormat {
 		String response = String.format("%0" + length + ".0f" , importe*100);
 		return response;
 	}
+	public static String formatNumero(int numero, int length) {
+		String response = String.format("%0" + length + "d" , numero);
+		return response;
+	}
 }

@@ -33,4 +33,10 @@ public class UtilFormatTest  {
 		Assert.assertTrue(response.length() == 20);
 		Assert.assertTrue(response1.length() == 10);
 	}
+	@Test
+	public void testformatNumero() {
+		String response = UtilFormat.formatNumero(23, 10);
+		System.out.println("+++ response: " + response);
+		Assert.assertTrue(response.length() == 10);
+	}
 }
