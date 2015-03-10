@@ -15,6 +15,8 @@ Pendiente : <br>
 mvn clean package<br>
 Copiar el jar resultante junto con el fichero parcel-descriptor.xml al directorio 
 /usr/lib/libreoffice/share/Scripts/java/CSB (Ubuntu) o 
-LibreOfficePortable\App\libreoffice\share\Scripts\java\CSB (Windows) y ejecutar la macro 
+LibreOfficePortable\App\libreoffice\share\Scripts\java\CSB (Windows) 
+<br>
+Abrir el fichero GenerateCSB19.ods, rellenar y ejecutar la macro 
 Tools -> Macro -> Run Macro -> LibreOffice Macros -> CSB -> GenerateCSB19.
 EL fichero adeudo es generado en el directorio $HOME en Unix.
