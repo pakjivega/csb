@@ -78,8 +78,8 @@ public abstract class CSB19 extends CSB {
 		try { 
 			NIF = presenterSheet.getCellByPosition(1, 2).getFormula();
 			int i = 1;
-			while ( ( adeudosSheet.getCellByPosition(i, 0).getFormula() != null) && ( adeudosSheet.getCellByPosition(i, 0).getFormula().toString() != null )
-					&& ( adeudosSheet.getCellByPosition(i, 0).getFormula().toString().trim().length() >0 )) {
+			while ( ( adeudosSheet.getCellByPosition(0, i).getFormula() != null) && ( adeudosSheet.getCellByPosition(0, i).getFormula().toString() != null )
+					&& ( adeudosSheet.getCellByPosition(0, i).getFormula().toString().trim().length() >0 )) {
 				
 					listAdeudos.add(INDIVOBLA1+INDIVOBLA2 + UtilFormat.fillRightCeros(NIF, 12) + //adeudosSheet.getCellByPosition(0, i).getFormula().toString() +
 						UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) +
@@ -92,12 +92,16 @@ public abstract class CSB19 extends CSB {
 						UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(7, i).getFormula(), 40) +
 						UtilFormat.fillRightSpace("", 13) 
 						);
+				importeTotal +=  adeudosSheet.getCellByPosition(8, i).getValue() * 100;
 				i++;
 				numeroDomicilOrdenante++;
 				numeroDomicilTotal++;
 				numeroTotalRegistrosOrdenante++;
 				numeroTotalRegistrosSoporte++;
-				importeTotal += Integer.valueOf(UtilFormat.formatImporte(adeudosSheet.getCellByPosition(8, i).getValue(),10));
+				
+				//importeTotal +=   * 100 ;
+				
+				//importeTotal ++ ;
 			}
 		} catch (Exception ex) {
 			
@@ -115,7 +119,7 @@ public abstract class CSB19 extends CSB {
 					UtilFormat.fillLeftSpace("", 12)  +
 					UtilFormat.fillLeftSpace("", 40)  +
 					UtilFormat.fillLeftSpace("", 20)  +
-					UtilFormat.formatImporte(importeTotal, 10) +
+					UtilFormat.formatNumero(importeTotal, 10) +
 					UtilFormat.fillRightSpace("", 6) +
 					UtilFormat.formatNumero(numeroDomicilOrdenante, 10) +
 					UtilFormat.formatNumero(numeroTotalRegistrosOrdenante, 10) ;
@@ -139,7 +143,7 @@ public abstract class CSB19 extends CSB {
 					UtilFormat.fillLeftSpace("", 40)  +
 					UtilFormat.formatNumero(numeroOrdenantes, 4) +
 					UtilFormat.fillLeftSpace("", 16)  +
-					UtilFormat.formatImporte(importeTotal, 10) +
+					UtilFormat.formatNumero(importeTotal, 10) +
 					UtilFormat.fillRightSpace("", 6) +
 					UtilFormat.formatNumero(numeroDomicilTotal, 10) +
 					UtilFormat.formatNumero(numeroTotalRegistrosSoporte, 10) +
