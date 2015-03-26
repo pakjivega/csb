@@ -1,11 +1,12 @@
 package com.pakjivega.libreoffice.csb;
 
-import java.awt.font.NumericShaper;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.sun.star.lang.IndexOutOfBoundsException;
 import com.sun.star.sheet.XSpreadsheet;
 
 public abstract class CSB19 extends CSB {
@@ -19,8 +20,7 @@ public abstract class CSB19 extends CSB {
 	private static final String TOTORDA1 = "58";
 	private static final String TOTORDA2 = "80";
 	private static final String TOTGENA1 = "59";
-	private static final String TOTGENA2 = "80";
-	
+	private static final String TOTGENA2 = "80";	
 	
 	@Override
 	public String getCabeceraPresentador(XSpreadsheet presenterSheet) {
@@ -35,7 +35,7 @@ public abstract class CSB19 extends CSB {
 					UtilFormat.fillRightSpace(namePresenter, 60) +
 					presenterSheet.getCellByPosition(1, 3).getFormula() + presenterSheet.getCellByPosition(1, 4).getFormula();
 			numeroTotalRegistrosSoporte++;
-		} catch (Exception ex) {
+		} catch (IndexOutOfBoundsException ex) {
 			// do stuff with exception
 			// response = ex.getMessage();
 			ex.printStackTrace();
@@ -63,10 +63,13 @@ public abstract class CSB19 extends CSB {
 			numeroTotalRegistrosOrdenante++;
 			numeroTotalRegistrosSoporte++;
 			numeroOrdenantes++;
-		} catch (Exception ex) {
+		} catch (IndexOutOfBoundsException ex) {
 			// do stuff with exception
 			// response = ex.getMessage();
 			ex.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return secondLine;
 	}
@@ -98,12 +101,8 @@ public abstract class CSB19 extends CSB {
 				numeroDomicilTotal++;
 				numeroTotalRegistrosOrdenante++;
 				numeroTotalRegistrosSoporte++;
-				
-				//importeTotal +=   * 100 ;
-				
-				//importeTotal ++ ;
 			}
-		} catch (Exception ex) {
+		} catch (IndexOutOfBoundsException ex) {
 			
 		}
 		return listAdeudos;
@@ -149,12 +148,11 @@ public abstract class CSB19 extends CSB {
 					UtilFormat.formatNumero(numeroTotalRegistrosSoporte, 10) +
 					UtilFormat.fillRightSpace("", 20) +
 					UtilFormat.fillRightSpace("", 18) ;
-		} catch (Exception ex) {
+		} catch (IndexOutOfBoundsException ex) { 
 			// do stuff with exception
 			// response = ex.getMessage();
 			ex.printStackTrace();
-		}
-		
+		}		
 		return firstLine;
 	}
 }

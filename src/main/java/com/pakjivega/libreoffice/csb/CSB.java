@@ -2,13 +2,14 @@ package com.pakjivega.libreoffice.csb;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import com.sun.star.container.XIndexAccess;
 import com.sun.star.sheet.XSpreadsheet;
 import com.sun.star.uno.UnoRuntime;
+import com.sun.star.lang.IndexOutOfBoundsException;
+import com.sun.star.lang.WrappedTargetException;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public abstract class CSB {
@@ -19,8 +20,7 @@ public abstract class CSB {
 	protected int numeroTotalRegistrosOrdenante = 0;
 	protected int numeroDomicilTotal = 0;
 	protected int numeroTotalRegistrosSoporte = 0;
-	protected int numeroOrdenantes = 0;
-	
+	protected int numeroOrdenantes = 0;	
 	
 	public String generateFile(XIndexAccess aSheetsIA ) {
 		String response = null;
@@ -43,10 +43,17 @@ public abstract class CSB {
 			fw.write(getTotalGeneral(maSheet));
 			fw.write(System.lineSeparator());
 			fw.close();
-		} catch (Exception ex) {
+			
+		} catch (IndexOutOfBoundsException ex) {
 			// do stuff with exception
 			// response = ex.getMessage();
 			ex.printStackTrace();
+		} catch (WrappedTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return response; 
 	}
