@@ -28,15 +28,20 @@ public class UtilFormat {
 		String response = String.format("%0" + length + "d" , numero);
 		return response;
 	}
-	public static boolean validateCCC(String entidad, String oficina, String dc, String cuenta){
-		boolean response = false;
-		if ( ( entidad != null) && (entidad.length() == 4) && ( oficina != null) && (oficina.length() == 4) 
-			&& ( dc != null) && (dc.length() == 2) && ( cuenta != null) && (cuenta.length() == 10) ) {
-			if ( (getDigit("00" + entidad + oficina) == dc.charAt(0) ) && ( getDigit(cuenta) == dc.charAt(1)) )  {
-				response = true;
-			}
+	public static String validateCCC(String entidad, String oficina, String dc, String cuenta) throws CCCInvalidException{
+		entidad = entidad.replace("'", "");
+		oficina = oficina.replace("'", "");
+		dc = dc.replace("'", "");
+		cuenta = cuenta.replace("'", "");		
+		if (( ( entidad != null) && (entidad.length() == 4) && ( oficina != null) && (oficina.length() == 4) 
+			&& ( dc != null) && (dc.length() == 2) && ( cuenta != null) && (cuenta.length() == 10) )  && 
+			 ( (getDigit("00" + entidad + oficina) == dc.charAt(0) ) && ( getDigit(cuenta) == dc.charAt(1)) ) ) {
+			
+			return entidad + oficina + dc + cuenta;
+		} else {
+			throw new CCCInvalidException("Numero de cuenta invalida" + entidad +"/" + oficina + "/" + dc + "/" + cuenta);
 		}
-		return response;
+
 	}
 	private static char getDigit(String valor){
 		int[] valores = {1, 2, 4, 8, 5, 10, 9, 7, 3, 6};

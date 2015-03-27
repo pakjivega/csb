@@ -74,7 +74,7 @@ public abstract class CSB19 extends CSB {
 		return secondLine;
 	}
 	@Override
-	public List<String> getIndividualObligatorio(XSpreadsheet adeudosSheet, XSpreadsheet presenterSheet) {
+	public List<String> getIndividualObligatorio(XSpreadsheet adeudosSheet, XSpreadsheet presenterSheet) throws CCCInvalidException {
 		
 		List<String> listAdeudos = new ArrayList<String>();
 		String NIF = null;
@@ -84,12 +84,13 @@ public abstract class CSB19 extends CSB {
 			while ( ( adeudosSheet.getCellByPosition(0, i).getFormula() != null) && ( adeudosSheet.getCellByPosition(0, i).getFormula().toString() != null )
 					&& ( adeudosSheet.getCellByPosition(0, i).getFormula().toString().trim().length() >0 )) {
 				
-					listAdeudos.add(INDIVOBLA1+INDIVOBLA2 + UtilFormat.fillRightCeros(NIF, 12) + //adeudosSheet.getCellByPosition(0, i).getFormula().toString() +
+					listAdeudos.add(INDIVOBLA1+INDIVOBLA2 + UtilFormat.fillRightCeros(NIF, 12) + 
 						UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) +
-						UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(1, i).getFormula().toString(), 40) +
-						adeudosSheet.getCellByPosition(3, i).getFormula().toString() + adeudosSheet.getCellByPosition(4, i).getFormula().toString() +
-						adeudosSheet.getCellByPosition(5, i).getFormula().toString() + adeudosSheet.getCellByPosition(6, i).getFormula().toString() +
-						UtilFormat.formatImporte(adeudosSheet.getCellByPosition(8, i).getValue(),10 ) +
+						UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(1, i).getFormula().toString(), 40) + //Nombre
+						UtilFormat.validateCCC(adeudosSheet.getCellByPosition(3, i).getFormula().toString() , adeudosSheet.getCellByPosition(4, i).getFormula().toString(), adeudosSheet.getCellByPosition(5, i).getFormula().toString() , adeudosSheet.getCellByPosition(6, i).getFormula().toString()) +
+						//adeudosSheet.getCellByPosition(3, i).getFormula().toString() + adeudosSheet.getCellByPosition(4, i).getFormula().toString() + //Entidad + Oficina
+						//adeudosSheet.getCellByPosition(5, i).getFormula().toString() + adeudosSheet.getCellByPosition(6, i).getFormula().toString() + //DC + numcuenta
+						UtilFormat.formatImporte(adeudosSheet.getCellByPosition(8, i).getValue(),10 ) + //Importe
 						String.format("%06d", i) + 
 						UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 10) +
 						UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(7, i).getFormula(), 40) +

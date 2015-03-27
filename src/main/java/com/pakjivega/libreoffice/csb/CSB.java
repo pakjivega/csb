@@ -10,6 +10,7 @@ import com.sun.star.uno.UnoRuntime;
 import com.sun.star.lang.IndexOutOfBoundsException;
 import com.sun.star.lang.WrappedTargetException;
 
+import java.util.Date;
 import java.util.List;
 
 public abstract class CSB {
@@ -27,22 +28,29 @@ public abstract class CSB {
 		try {
 			response = csbFile.getPath();
 			XSpreadsheet maSheet = UnoRuntime.queryInterface(XSpreadsheet.class, aSheetsIA.getByIndex(0));
+			maSheet.getCellByPosition(0, 15).setFormula("");
 			FileWriter fw = new FileWriter(csbFile);
 			fw.write(getCabeceraPresentador(maSheet));
 			fw.write(System.lineSeparator());
 			fw.write(getCabeceraOrdenante(maSheet));
 			fw.write(System.lineSeparator());
 			XSpreadsheet maAdeudos = UnoRuntime.queryInterface(XSpreadsheet.class, aSheetsIA.getByIndex(1));
-			List<String> listAdeudos = getIndividualObligatorio(maAdeudos, maSheet);
-			for  (String adeudo: listAdeudos) {
-				fw.write(adeudo);
+			try {
+				List<String> listAdeudos = getIndividualObligatorio(maAdeudos, maSheet);
+				for  (String adeudo: listAdeudos) {
+					fw.write(adeudo);
+					fw.write(System.lineSeparator());
+				}
+				fw.write(getTotalOrdenante(maSheet));
 				fw.write(System.lineSeparator());
+				fw.write(getTotalGeneral(maSheet));
+				fw.write(System.lineSeparator());
+				fw.close();
+				Date now = new Date();
+				maSheet.getCellByPosition(0, 15).setFormula("Fichero generado correctamente a las "+ now );
+			} catch ( CCCInvalidException cccex) {
+				maSheet.getCellByPosition(0, 15).setFormula("Error:" + cccex.getMessage());
 			}
-			fw.write(getTotalOrdenante(maSheet));
-			fw.write(System.lineSeparator());
-			fw.write(getTotalGeneral(maSheet));
-			fw.write(System.lineSeparator());
-			fw.close();
 			
 		} catch (IndexOutOfBoundsException ex) {
 			// do stuff with exception
@@ -54,12 +62,12 @@ public abstract class CSB {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		return response; 
 	}
 	public abstract String getCabeceraPresentador(XSpreadsheet maSheet) ;
 	public abstract String getCabeceraOrdenante(XSpreadsheet maSheet);
-	public abstract List<String> getIndividualObligatorio(XSpreadsheet presentadorSheet, XSpreadsheet adeudosSheet);
+	public abstract List<String> getIndividualObligatorio(XSpreadsheet presentadorSheet, XSpreadsheet adeudosSheet) throws CCCInvalidException;
 	public abstract String getTotalOrdenante(XSpreadsheet maSheet) ;
 	public abstract String getTotalGeneral(XSpreadsheet maSheet);
 }
