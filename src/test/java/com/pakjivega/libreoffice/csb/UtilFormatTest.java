@@ -54,9 +54,12 @@ public class UtilFormatTest  {
 	@Test(expected = CCCInvalidException.class)
 	public void testWrongCodigoCuenta() throws CCCInvalidException {
 		String cuenta1 = null;
-		cuenta1 = UtilFormat.validateCCC("1234", "5678", "16", "1234567890");			
-		//String cuenta1 = UtilFormat.validateCCC("1234", "5678", "06", "1234567890");
-		// ! UtilFormat.validateCCC("1234", "5678", "06", "123456789"));
-		//Assert.assertEquals(cuenta1,"1234" + "5678" + "06" + "1234567890");
+		cuenta1 = UtilFormat.validateCCC("1234", "5678", "16", "1234567890");
 	}
+	@Test(expected = CCCInvalidException.class)
+	public void testWrong2CodigoCuenta() throws CCCInvalidException {
+		String cuenta1 = null;
+		cuenta1 = UtilFormat.validateCCC("123", "5678", "06", "1234567890");			
+	}
+
 }
