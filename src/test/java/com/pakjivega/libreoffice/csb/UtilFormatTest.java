@@ -2,6 +2,7 @@ package com.pakjivega.libreoffice.csb;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
  
 public class UtilFormatTest  {
 
@@ -39,10 +40,23 @@ public class UtilFormatTest  {
 		System.out.println("+++ response: " + response);
 		Assert.assertTrue(response.length() == 10);
 	}
-//	//@Test
-//	public void testCodigoCuenta() {
-//		String cuenta1 = UtilFormat.validateCCC("1234", "5678", "06", "1234567890");
-//		// ! UtilFormat.validateCCC("1234", "5678", "06", "123456789"));
-//		//Assert.assertTrue( UtilFormat.validateCCC("8776", "7656", "25", "3434334549"));
-//	}
+	@Test
+	public void testRightCodigoCuenta() {
+		String cuenta1 = null;
+		try {
+			cuenta1 = UtilFormat.validateCCC("1234", "5678", "06", "1234567890");			
+		} catch ( CCCInvalidException ex) {
+		}		
+		//String cuenta1 = UtilFormat.validateCCC("1234", "5678", "06", "1234567890");
+		// ! UtilFormat.validateCCC("1234", "5678", "06", "123456789"));
+		Assert.assertEquals(cuenta1,"1234" + "5678" + "06" + "1234567890");
+	}
+	@Test(expected = CCCInvalidException.class)
+	public void testWrongCodigoCuenta() throws CCCInvalidException {
+		String cuenta1 = null;
+		cuenta1 = UtilFormat.validateCCC("1234", "5678", "16", "1234567890");			
+		//String cuenta1 = UtilFormat.validateCCC("1234", "5678", "06", "1234567890");
+		// ! UtilFormat.validateCCC("1234", "5678", "06", "123456789"));
+		//Assert.assertEquals(cuenta1,"1234" + "5678" + "06" + "1234567890");
+	}
 }
