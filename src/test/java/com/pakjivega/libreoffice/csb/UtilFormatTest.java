@@ -3,29 +3,31 @@ package com.pakjivega.libreoffice.csb;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.internal.runners.statements.Fail;
+
+import com.pakjivega.libreoffice.csb.exception.CCCInvalidException;
  
 public class UtilFormatTest  {
 
 	@Test
-	public void testUtilLeftFormat() {
+	public void testFillLeftSpace() {
 		String response = UtilFormat.fillLeftSpace("NAME", 20);
-		Assert.assertTrue(response.length() == 20);
-		Assert.assertTrue(response.indexOf("NAME") == 16);
-		Assert.assertTrue("NAME".equals(response.trim()));
+		Assert.assertEquals("                NAME", response);
+		Assert.assertEquals("                ", UtilFormat.fillLeftSpace("", 16));
 	}
 	@Test
-	public void testUtilRightFormat() {
+	public void testFillLeftCeros() {
+		String response = UtilFormat.fillLeftCeros("NAME", 20);
+		Assert.assertEquals("0000000000000000NAME", response);
+	}
+	@Test
+	public void testFillRightSpace() {
 		String response = UtilFormat.fillRightSpace("NAME", 20);
-		Assert.assertTrue(response.length() == 20);
-		Assert.assertTrue(response.indexOf("NAME") == 0);
-		Assert.assertTrue("NAME".equals(response.trim()));
+		Assert.assertEquals("NAME                ", response);
 	}
 	@Test
-	public void testUtilLeftFormatWithZero() {
+	public void testFillRightCeros() {
 		String response = UtilFormat.fillRightCeros("NAME", 20);
-		Assert.assertTrue(response.length() == 20);
-		Assert.assertTrue(response.indexOf("NAME") == 0);
-		Assert.assertTrue("NAME0000000000000000".equals(response.trim()));
+		Assert.assertEquals("NAME0000000000000000",response);
 	}
 	@Test
 	public void testformatImporte() {
@@ -37,7 +39,6 @@ public class UtilFormatTest  {
 	@Test
 	public void testformatNumero() {
 		String response = UtilFormat.formatNumero(23, 10);
-		System.out.println("+++ response: " + response);
 		Assert.assertTrue(response.length() == 10);
 	}
 	@Test
@@ -46,9 +47,7 @@ public class UtilFormatTest  {
 		try {
 			cuenta1 = UtilFormat.validateCCC("1234", "5678", "06", "1234567890");			
 		} catch ( CCCInvalidException ex) {
-		}		
-		//String cuenta1 = UtilFormat.validateCCC("1234", "5678", "06", "1234567890");
-		// ! UtilFormat.validateCCC("1234", "5678", "06", "123456789"));
+		}
 		Assert.assertEquals(cuenta1,"1234" + "5678" + "06" + "1234567890");
 	}
 	@Test(expected = CCCInvalidException.class)

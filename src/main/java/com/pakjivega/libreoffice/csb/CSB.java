@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import com.pakjivega.libreoffice.csb.exception.CCCInvalidException;
+import com.pakjivega.libreoffice.csb.exception.FieldEmptyException;
+
 import com.sun.star.container.XIndexAccess;
 import com.sun.star.sheet.XSpreadsheet;
 import com.sun.star.uno.UnoRuntime;
@@ -29,13 +32,14 @@ public abstract class CSB {
 			response = csbFile.getPath();
 			XSpreadsheet maSheet = UnoRuntime.queryInterface(XSpreadsheet.class, aSheetsIA.getByIndex(0));
 			maSheet.getCellByPosition(0, 15).setFormula("");
-			FileWriter fw = new FileWriter(csbFile);
-			fw.write(getCabeceraPresentador(maSheet));
-			fw.write(System.lineSeparator());
-			fw.write(getCabeceraOrdenante(maSheet));
-			fw.write(System.lineSeparator());
-			XSpreadsheet maAdeudos = UnoRuntime.queryInterface(XSpreadsheet.class, aSheetsIA.getByIndex(1));
 			try {
+				FileWriter fw = new FileWriter(csbFile);
+				fw.write(getCabeceraPresentador(maSheet));
+				fw.write(System.lineSeparator());
+				fw.write(getCabeceraOrdenante(maSheet));
+				fw.write(System.lineSeparator());
+				XSpreadsheet maAdeudos = UnoRuntime.queryInterface(XSpreadsheet.class, aSheetsIA.getByIndex(1));
+			
 				List<String> listAdeudos = getIndividualObligatorio(maAdeudos, maSheet);
 				for  (String adeudo: listAdeudos) {
 					fw.write(adeudo);
@@ -48,9 +52,11 @@ public abstract class CSB {
 				fw.close();
 				Date now = new Date();
 				maSheet.getCellByPosition(0, 15).setFormula("Fichero generado correctamente a las "+ now );
-			} catch ( CCCInvalidException cccex) {
-				maSheet.getCellByPosition(0, 15).setFormula("Error:" + cccex.getMessage());
-			}
+			} catch ( CCCInvalidException ex) {
+				maSheet.getCellByPosition(0, 15).setFormula("Error:" + ex.getMessage());
+			} catch ( FieldEmptyException ex) {
+				maSheet.getCellByPosition(0, 15).setFormula("Error:" + ex.getMessage());
+		}
 			
 		} catch (IndexOutOfBoundsException ex) {
 			// do stuff with exception
@@ -65,9 +71,9 @@ public abstract class CSB {
 		} 
 		return response; 
 	}
-	public abstract String getCabeceraPresentador(XSpreadsheet maSheet) ;
-	public abstract String getCabeceraOrdenante(XSpreadsheet maSheet);
-	public abstract List<String> getIndividualObligatorio(XSpreadsheet presentadorSheet, XSpreadsheet adeudosSheet) throws CCCInvalidException;
+	public abstract String getCabeceraPresentador(XSpreadsheet maSheet) throws FieldEmptyException ;
+	public abstract String getCabeceraOrdenante(XSpreadsheet maSheet) throws CCCInvalidException, FieldEmptyException;
+	public abstract List<String> getIndividualObligatorio(XSpreadsheet presentadorSheet, XSpreadsheet adeudosSheet) throws CCCInvalidException, FieldEmptyException;
 	public abstract String getTotalOrdenante(XSpreadsheet maSheet) ;
 	public abstract String getTotalGeneral(XSpreadsheet maSheet);
 }
