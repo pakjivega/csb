@@ -74,7 +74,7 @@ public abstract class CSB19 extends CSB {
 			
 			secondLine = ORDEA1
 					+ ORDEA2
-					+ UtilFormat.fillRightCeros(NIF, 12)
+					+ UtilFormat.fillRightCerosUno(NIF, 12)
 					+ sDate
 					+ sDateCargo
 					+ UtilFormat.fillRightSpace(nameOrdenante, 40)
@@ -113,9 +113,9 @@ public abstract class CSB19 extends CSB {
 					}
 				}
 				
-				listAdeudos.add(INDIVOBLA1 + INDIVOBLA2 + UtilFormat.fillRightCeros(NIF, 12)  //NIF
-						+ UtilFormat.fillLeftCeros(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) //Referencia cliente
-						//+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) //Referencia cliente
+				listAdeudos.add(INDIVOBLA1 + INDIVOBLA2 + UtilFormat.fillRightCerosUno(NIF, 12)  //NIF
+						//+ UtilFormat.fillLeftCeros(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) //Referencia cliente
+						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) //Referencia cliente
 						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(1, i).getFormula().toString(), 40) // Nombre cliente
 						+ UtilFormat.validateCCC(
 								adeudosSheet.getCellByPosition(3, i).getFormula().toString(), // Entidad
@@ -123,8 +123,9 @@ public abstract class CSB19 extends CSB {
 								adeudosSheet.getCellByPosition(5, i).getFormula().toString(), // DigitoControl																								
 								adeudosSheet.getCellByPosition(6, i).getFormula().toString()) // Cuenta
 						+ UtilFormat.formatImporte(adeudosSheet.getCellByPosition(8, i).getValue(), 10) //Importe
-						+ UtilFormat.fillLeftSpace("", 16) //Libre
-						//+ String.format("%06d", i) + UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 10) //Libre
+						//+ UtilFormat.fillLeftSpace("", 16) //Libre
+						+ String.format("%06d", i) 
+						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 10) //Libre
 						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(7, i).getFormula(), 40) + UtilFormat.fillRightSpace("", 13)); //Concepto
 				importeTotal += adeudosSheet.getCellByPosition(8, i).getValue() * 100;
 				i++;
@@ -146,7 +147,7 @@ public abstract class CSB19 extends CSB {
 			String NIF = presenterSheet.getCellByPosition(1, 2).getFormula();
 			numeroTotalRegistrosOrdenante++;
 			numeroTotalRegistrosSoporte++;
-			firstLine = TOTORDA1 + TOTORDA2 + UtilFormat.fillRightCeros(NIF, 12) + UtilFormat.fillLeftSpace("", 12) + UtilFormat.fillLeftSpace("", 40)
+			firstLine = TOTORDA1 + TOTORDA2 + UtilFormat.fillRightCerosUno(NIF, 12) + UtilFormat.fillLeftSpace("", 12) + UtilFormat.fillLeftSpace("", 40)
 					+ UtilFormat.fillLeftSpace("", 20) + UtilFormat.formatNumero(importeTotal, 10) + UtilFormat.fillRightSpace("", 6)
 					+ UtilFormat.formatNumero(numeroDomicilOrdenante, 10) + UtilFormat.formatNumero(numeroTotalRegistrosOrdenante, 10);
 		} catch (Exception ex) {
