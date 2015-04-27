@@ -63,6 +63,7 @@ public abstract class CSB19 extends CSB {
 			Date dateCargo = dateFormat.parse(presenterSheet.getCellByPosition(1, 10).getFormula());
 			String sDate = sdf.format(now);
 			String NIF = presenterSheet.getCellByPosition(1, 6).getFormula();
+			String suffixNIF = presenterSheet.getCellByPosition(3, 6).getFormula();
 			String nameOrdenante = presenterSheet.getCellByPosition(1, 5).getFormula();
 			String sDateCargo = sdf.format(dateCargo);
 			if ((NIF == null) || (NIF.length() == 0)) {
@@ -74,7 +75,7 @@ public abstract class CSB19 extends CSB {
 			
 			secondLine = ORDEA1
 					+ ORDEA2
-					+ UtilFormat.fillRightCerosUno(NIF, 12)
+					+ UtilFormat.fillNIFordenante(NIF, suffixNIF)
 					+ sDate
 					+ sDateCargo
 					+ UtilFormat.fillRightSpace(nameOrdenante, 40)
@@ -99,8 +100,10 @@ public abstract class CSB19 extends CSB {
 
 		List<String> listAdeudos = new ArrayList<String>();
 		String NIF = null;
+		String suffixNIF = null;
 		try {
-			NIF = presenterSheet.getCellByPosition(1, 2).getFormula();
+			NIF = presenterSheet.getCellByPosition(1, 6).getFormula();
+			suffixNIF = presenterSheet.getCellByPosition(3, 6).getFormula();
 			int i = 1;
 			while ((adeudosSheet.getCellByPosition(0, i).getFormula() != null) && (adeudosSheet.getCellByPosition(0, i).getFormula().toString() != null)
 					&& (adeudosSheet.getCellByPosition(0, i).getFormula().toString().trim().length() > 0)) {
@@ -113,7 +116,7 @@ public abstract class CSB19 extends CSB {
 					}
 				}
 				
-				listAdeudos.add(INDIVOBLA1 + INDIVOBLA2 + UtilFormat.fillRightCerosUno(NIF, 12)  //NIF
+				listAdeudos.add(INDIVOBLA1 + INDIVOBLA2 + UtilFormat.fillNIFordenante(NIF, suffixNIF)  //NIF
 						//+ UtilFormat.fillLeftCeros(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) //Referencia cliente
 						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) //Referencia cliente
 						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(1, i).getFormula().toString(), 40) // Nombre cliente
@@ -144,12 +147,19 @@ public abstract class CSB19 extends CSB {
 	public String getTotalOrdenante(XSpreadsheet presenterSheet) {
 		String firstLine = null;
 		try {
-			String NIF = presenterSheet.getCellByPosition(1, 2).getFormula();
+			String NIF = presenterSheet.getCellByPosition(1, 6).getFormula();
+			String suffixNIF = presenterSheet.getCellByPosition(3, 6).getFormula();
 			numeroTotalRegistrosOrdenante++;
 			numeroTotalRegistrosSoporte++;
-			firstLine = TOTORDA1 + TOTORDA2 + UtilFormat.fillRightCerosUno(NIF, 12) + UtilFormat.fillLeftSpace("", 12) + UtilFormat.fillLeftSpace("", 40)
-					+ UtilFormat.fillLeftSpace("", 20) + UtilFormat.formatNumero(importeTotal, 10) + UtilFormat.fillRightSpace("", 6)
-					+ UtilFormat.formatNumero(numeroDomicilOrdenante, 10) + UtilFormat.formatNumero(numeroTotalRegistrosOrdenante, 10);
+			firstLine = TOTORDA1 + TOTORDA2 
+					+ UtilFormat.fillNIFordenante(NIF, suffixNIF) 
+					+ UtilFormat.fillLeftSpace("", 12) 
+					+ UtilFormat.fillLeftSpace("", 40)
+					+ UtilFormat.fillLeftSpace("", 20) 
+					+ UtilFormat.formatNumero(importeTotal, 10) 
+					+ UtilFormat.fillRightSpace("", 6)
+					+ UtilFormat.formatNumero(numeroDomicilOrdenante, 10) 
+					+ UtilFormat.formatNumero(numeroTotalRegistrosOrdenante, 10);
 		} catch (Exception ex) {
 			// do stuff with exception
 			// response = ex.getMessage();

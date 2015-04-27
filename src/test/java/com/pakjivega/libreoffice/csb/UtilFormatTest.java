@@ -60,5 +60,13 @@ public class UtilFormatTest  {
 		String cuenta1 = null;
 		cuenta1 = UtilFormat.validateCCC("123", "5678", "06", "1234567890");			
 	}
+	@Test
+	public void testFillNIFordenante() {
+		String NIF = "A12345678";
+		String suffixNIF = "20";
+		String response = UtilFormat.fillNIFordenante(NIF, suffixNIF);
+		Assert.assertTrue(response.length() == 12);
+		Assert.assertTrue(response.equals(NIF + "0" + suffixNIF));
+	}
 
 }

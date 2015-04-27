@@ -13,9 +13,8 @@ public class UtilFormat {
 		String response = String.format("%0" + length + "d" , 0);
 		return cadena + response.substring(cadena.length());
 	}
-	public static String fillRightCerosUno(String cadena, int length) {
-		String response = String.format("%0" + (length -1) + "d" , 0);
-		return cadena + response.substring(cadena.length()) + "1";
+	public static String fillNIFordenante(String cadena, String suffix) {
+		return cadena  + fillLeftCeros(suffix, 3 );		
 	}
 	public static String fillLeftCeros(String cadena, int length) {
 		String zeros = String.format("%0" + ( length - cadena.length() )  + "d" , 0);
