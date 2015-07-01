@@ -105,9 +105,10 @@ public abstract class CSB19 extends CSB {
 			NIF = presenterSheet.getCellByPosition(1, 6).getFormula();
 			suffixNIF = presenterSheet.getCellByPosition(3, 6).getFormula();
 			int i = 1;
-			while ((adeudosSheet.getCellByPosition(0, i).getFormula() != null) && (adeudosSheet.getCellByPosition(0, i).getFormula().toString() != null)
-					&& (adeudosSheet.getCellByPosition(0, i).getFormula().toString().trim().length() > 0)) {
-				int[] positions = {0,1,3,4,5,6,7,8};//Check Reference Number 0, Name 1, Bank Account 3456, Concepto 7 and Importe 8
+			while ((adeudosSheet.getCellByPosition(1, i).getFormula() != null) && (adeudosSheet.getCellByPosition(1, i).getFormula().toString() != null)
+					&& (adeudosSheet.getCellByPosition(1, i).getFormula().toString().trim().length() > 0)) {
+				//int[] positions = {0,1,3,4,5,6,7,8};//Check Reference Number 0, Name 1, Bank Account 3456, Concepto 7 and Importe 8
+				int[] positions = {1,2,4,5,6,7,8,9};//Check Reference Number 1, Name 2, Bank Account 3456, Concepto 8 and Importe 9
 				for (int j : positions)
 				{
 					if ((adeudosSheet.getCellByPosition(j, i).getFormula() == null) || (adeudosSheet.getCellByPosition(j, i).getFormula().toString() == null)
@@ -118,19 +119,22 @@ public abstract class CSB19 extends CSB {
 				
 				listAdeudos.add(INDIVOBLA1 + INDIVOBLA2 + UtilFormat.fillNIFordenante(NIF, suffixNIF)  //NIF
 						//+ UtilFormat.fillLeftCeros(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) //Referencia cliente
-						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 12) //Referencia cliente
-						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(1, i).getFormula().toString(), 40) // Nombre cliente
+						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(1, i).getFormula(), 12) //Referencia cliente
+						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(2, i).getFormula().toString(), 40) // Nombre cliente
 						+ UtilFormat.validateCCC(
-								adeudosSheet.getCellByPosition(3, i).getFormula().toString(), // Entidad
-								adeudosSheet.getCellByPosition(4, i).getFormula().toString(), // Oficina
-								adeudosSheet.getCellByPosition(5, i).getFormula().toString(), // DigitoControl																								
-								adeudosSheet.getCellByPosition(6, i).getFormula().toString()) // Cuenta
-						+ UtilFormat.formatImporte(adeudosSheet.getCellByPosition(8, i).getValue(), 10) //Importe
+								adeudosSheet.getCellByPosition(4, i).getFormula().toString(), // Entidad
+								adeudosSheet.getCellByPosition(5, i).getFormula().toString(), // Oficina
+								adeudosSheet.getCellByPosition(6, i).getFormula().toString(), // DigitoControl																								
+								adeudosSheet.getCellByPosition(7, i).getFormula().toString()) // Cuenta
+						+ UtilFormat.formatImporte(adeudosSheet.getCellByPosition(9, i).getValue(), 10) //Importe
 						//+ UtilFormat.fillLeftSpace("", 16) //Libre
 						+ String.format("%06d", i) 
-						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(0, i).getFormula(), 10) //Libre
-						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(7, i).getFormula(), 40) + UtilFormat.fillRightSpace("", 13)); //Concepto
-				importeTotal += adeudosSheet.getCellByPosition(8, i).getValue() * 100;
+						+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(1, i).getFormula(), 10) //Libre
+						//+ UtilFormat.fillRightSpace(adeudosSheet.getCellByPosition(8, i).getFormula(), 40) ); 
+						+ adeudosSheet.getCellByPosition(8, i).getFormula() );
+						//+ UtilFormat.fillRightSpace("", 13)); //Concepto
+
+				importeTotal += adeudosSheet.getCellByPosition(9, i).getValue() * 100;
 				i++;
 				numeroDomicilOrdenante++;
 				numeroDomicilTotal++;
